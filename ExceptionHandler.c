@@ -160,13 +160,13 @@ PCHAR GetExceptionSymbol(PEXCEPTION_POINTERS pExceptionInfo)
     uintptr_t L0 = (uintptr_t)pExceptionInfo->ExceptionRecord->ExceptionInformation[2];
     if (!L0)
         return NULL;
-    uintptr_t* L1 = *((uintptr_t**)L0 + 3);
+    uintptr_t L1 = *((uintptr_t*)L0 + 3);
     if (!L1)
         return NULL;
-    uintptr_t* L2 = *((uintptr_t**)L1 + 1);
+    uintptr_t L2 = *((uintptr_t*)L1 + 1);
     if (!L2)
         return NULL;
-    uintptr_t* L3 = *((uintptr_t**)L2 + 1);
+    uintptr_t L3 = *((uintptr_t*)L2 + 1);
     return (char*)(L3[2]);
 #elif (INTPTR_MAX == INT64_MAX)
     if (pExceptionInfo->ExceptionRecord->NumberParameters < 4)
@@ -484,6 +484,10 @@ void EHLibInit_NT35()
     F_KiUserExceptionDispatcher = (T_KiUserExceptionDispatcher)(PVOID)GetProcAddress(hNtDll, "KiUserExceptionDispatcher");
     
     // UNIMPLEMENTED FIXME
+    // TODO: Hook KiUserExceptionDispatcher which provides a PEXCEPTION_POINTERS and PCONTEXT,
+    //       determine if the exception is relevant or not, and if it isn't, call original
+
+    
 }
 
 void EHLibInit(struct ExceptionHandlerSettings* settings)

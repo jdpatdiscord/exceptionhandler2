@@ -12,8 +12,11 @@ option(ZYDIS_BUILD_MAN "" OFF)
 option(ZYDIS_BUILD_DOXYGEN "" OFF)
 option(ZYDIS_BUILD_TESTS "" OFF)
 option(ZYDIS_BUILD_SHARED_LIB "" OFF)
+option(ZYAN_NO_LIBC "" ON)
+option(ZYCORE_BUILD_EXAMPLES "" OFF)
+option(ZYCORE_BUILD_TESTS "" OFF)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -O2 -g3 -gcodeview")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -O2")
 
 add_subdirectory(zydis/)
 
@@ -25,7 +28,7 @@ add_library(exceptionhandler_lib
     ExceptionHandler.h
     DllMain.c)
 
-set_property(TARGET exceptionhandler_lib PROPERTY C_STANDARD 90)
-include_directories(${CMAKE_SOURCE_DIR}/zydis/include ${CMAKE_SOURCE_DIR}/zydis/dependencies/zycore/include)
+set_property(TARGET exceptionhandler_lib PROPERTY C_STANDARD_REQUIRED 90)
+include_directories(${CMAKE_SOURCE_DIR}/zydis/include ${CMAKE_SOURCE_DIR}/zydis/dependencies/zycore-c/include)
 target_link_directories(exceptionhandler_lib PUBLIC ${CMAKE_SOURCE_DIR}/build/zydis/ ${CMAKE_SOURCE_DIR}/build/zydis/zycore)
 add_dependencies(exceptionhandler_lib Zydis)
